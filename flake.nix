@@ -13,7 +13,7 @@
 
   outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (system:
   {
-    homeConfigurations."stary-${system}" = inputs.home-manager.lib.homeManagerConfiguration {
+    homeConfigurations.stary = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
       extraSpecialArgs = { inherit inputs; };
       modules = [ ({ ... }: {
