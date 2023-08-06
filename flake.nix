@@ -7,12 +7,13 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs: let
-    system = "x86_64-linux";
-  in {
-    homeConfigurations.default = inputs.home-manager.lib.homeManagerConfiguration {
+  outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (system:
+  {
+    homeConfigurations."stary-${system}" = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
       extraSpecialArgs = { inherit inputs; };
       modules = [ ({ ... }: {
@@ -26,5 +27,5 @@
         programs.tmux.enable = true;
       }) ];
     };
-  };
+  });
 }
